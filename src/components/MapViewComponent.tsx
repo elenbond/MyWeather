@@ -6,15 +6,15 @@ import { width, height } from "../constants/dimentions";
 
 type Props = {
   marker: {latitude: number, longitude: number} | null;
-  handleLongPress: (event: { nativeEvent: { coordinate: { latitude: number; longitude: number } } }) => void; 
+  onLongPress: (event: { nativeEvent: { coordinate: { latitude: number; longitude: number } } }) => void; 
 }
 
-const MapViewComponent: React.FC<Props> = ({marker, handleLongPress}) => {
+const MapViewComponent: React.FC<Props> = ({marker, onLongPress}) => {
   return(
     <View>
       <MapView
         style={{flex: 1, width, height}}
-        onLongPress={handleLongPress}
+        onLongPress={onLongPress}
       >
         {marker && (
           <Marker
