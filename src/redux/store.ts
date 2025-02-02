@@ -3,7 +3,7 @@ import weatherReducer from "./reducer";
 
 const store = configureStore({
   reducer: {
-    weather: weatherReducer,
+    weather: weatherReducer
   }
 });
 
