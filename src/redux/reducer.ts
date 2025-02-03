@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchCityName, fetchWeather, fetchWeatherByCoords } from "./actions";
+import { fetchCityName, fetchWeeklyWeather, fetchCoords } from "./actions";
 
 interface WeatherState {
   name: string;
@@ -37,28 +37,52 @@ const weatherSlice = createSlice({
     //   .addCase(fetchWeather.pending, (state) => {
     //     state.loading = true;
     //     state.error = null;
-    // });
-    // builder
+    //   })
     //   .addCase(fetchWeather.fulfilled, (state, action) => {
     //     state.loading = false;
     //     state.name = action.payload.name;
     //     state.forecast = action.payload;
-    // });
-    // builder
+    //   })
     //   .addCase(fetchWeather.rejected, (state, action) => {
     //     state.loading = false;
     //     state.error = action.error.message ?? "Undefined error";
-    // });
+    //   });
+    // builder
+    //   .addCase(fetchWeatherByCoords.pending, (state) => {
+    //     state.loading = true;
+    //     state.error = null;
+    //   })
+    //   .addCase(fetchWeatherByCoords.fulfilled, (state, action) => {
+    //     state.loading = false;
+    //     state.forecast = action.payload;
+    //   })
+    //   .addCase(fetchWeatherByCoords.rejected, (state, action) => {
+    //     state.loading = false;
+    //     state.error = action.error.message ?? "Undefined error";
+    //   });
     builder
-      .addCase(fetchWeatherByCoords.pending, (state) => {
+      .addCase(fetchWeeklyWeather.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchWeatherByCoords.fulfilled, (state, action) => {
+      .addCase(fetchWeeklyWeather.fulfilled, (state, action) => {
         state.loading = false;
         state.forecast = action.payload;
       })
-      .addCase(fetchWeatherByCoords.rejected, (state, action) => {
+      .addCase(fetchWeeklyWeather.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? "Undefined error";
+      });
+    builder
+      .addCase(fetchCoords.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCoords.fulfilled, (state, action) => {
+        state.loading = false;
+        state.forecast = action.payload;
+      })
+      .addCase(fetchCoords.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? "Undefined error";
       });

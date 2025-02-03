@@ -3,8 +3,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import HomeScreen from "../screens/HomeScreen";
 import WeatherDetailsScreen from "../screens/WeatherDetailsScreen";
+import { RootStackParamList } from "../navigation/NavigationTypes";
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const AppStack = () => {
   return (

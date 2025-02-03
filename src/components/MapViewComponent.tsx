@@ -1,18 +1,25 @@
 import React from "react";
 import { View, Text } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp }  from "@react-navigation/native-stack";
 
+import { RootStackParamList } from "../navigation/NavigationTypes";
 import { width, height } from "../constants/dimentions";
 
 type Props = {
   marker: {latitude: number, longitude: number} | null;
   onLongPress: (event: { nativeEvent: { coordinate: { latitude: number; longitude: number } } }) => void;
   title: string | undefined;
-  description: string | undefined;
+  description: any | undefined;
 }
 
 const MapViewComponent: React.FC<Props> = ({marker, onLongPress, title, description}) => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
+
+  const roundedTemp = description?.[0]?.avgTemp < 0 
+    ? Math.floor(description?.[0]?.avgTemp) : Math.ceil(description?.[0]?.avgTemp);
+
   return(
     <View>
       <MapView
@@ -26,24 +33,21 @@ const MapViewComponent: React.FC<Props> = ({marker, onLongPress, title, descript
               latitude: marker.latitude,
               longitude: marker.longitude,
             }}
-            title={`This is city name ${title}`}
-            description={`This is a marker example, ${description}°C`}
-          >
-            {/* <View style={{backgroundColor: "red", padding: 10, borderRadius: 10}}>
-              <Text style={{color: "white"}}>This is a marker</Text>
-            </View> */}
-          </Marker>
+            title={`${title}`}
+            description={`${roundedTemp}°C`}
+            onPress={()=>{
+              navigation.navigate("WeatherDetailsScreen", 
+              {city: title || "Unknown city", 
+                forecast: description, 
+                latitude: marker.latitude,
+                longitude: marker.longitude
+              });
+            }}
+          ></Marker>
         )}
-        {/* <View>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-            Місто: {title}
-          </Text>
-        </View> */}
       </MapView>
     </View>
   )
 }
 
 export default MapViewComponent;
-
-//AIzaSyC620Zvd5hkVPyWoah66iD44NdQgGPKm5c

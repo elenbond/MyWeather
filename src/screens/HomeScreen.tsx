@@ -5,11 +5,11 @@ import MapEvent from "react-native-maps";
 import MapView, {Marker} from "react-native-maps";
 
 import MapViewComponent from "../components/MapViewComponent";
-import { fetchCityName, fetchWeather, fetchWeatherByCoords } from "../redux/actions";
+import { fetchCityName, fetchWeeklyWeather } from "../redux/actions";
 import { AppDispatch, RootState } from "../redux/store";
 import { width, height } from "../constants/dimentions";
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({}) => {
   const [marker, setMarker] = useState<{ latitude: number; longitude: number } | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const city = useSelector((state: RootState) => state.weather.name);
@@ -20,35 +20,36 @@ const HomeScreen = ({navigation}) => {
   useEffect(() => {
     if (marker) {
       dispatch(fetchCityName({lat: marker.latitude, lon: marker.longitude}))
-      .unwrap()
-      .then((name: string)=> {
-        dispatch(fetchWeather({name}))
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
+      // .unwrap()
+      // .then((name: string)=> {
+      //   // dispatch(fetchWeather({name}))
+      // })
+      // .catch((error) => {
+      //   console.log("error", error);
+      // });
+      dispatch(fetchWeeklyWeather({lat: marker.latitude, lon: marker.longitude}));
     }
   }, [marker, dispatch]);
 
-  useEffect(() => {
-    if (marker) {
-      dispatch(fetchWeatherByCoords({lat: marker.latitude, lon: marker.longitude}))
-      .unwrap()
-      .then((forecast: any) => {
-        console.log("forecast", forecast);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
-    }
-  }, [marker, dispatch]);
+  // useEffect(() => {
+  //   if (marker) {
+  //     dispatch(fetchWeatherByCoords({lat: marker.latitude, lon: marker.longitude}))
+  //     .unwrap()
+  //     .then((forecast: any) => {
+  //       console.log("forecast", forecast);
+  //     })
+  //     .catch((error) => {
+  //       console.log("error", error);
+  //     });
+  //   }
+  // }, [marker, dispatch]);
 
   const handleLongPress = (event: { 
     nativeEvent: { coordinate: { latitude: number; longitude: number } } 
   }) => {
     const {latitude, longitude} = event.nativeEvent.coordinate;
     setMarker({latitude, longitude});
-    // console.log("marker", marker);
+    console.log("marker", marker);
     // console.log("city1", city);
     console.log("forecast1", forecast);
   }
@@ -57,19 +58,19 @@ const HomeScreen = ({navigation}) => {
     <View style={{ width, height, justifyContent: "center", alignItems: "center" }}>
       {loading && <Text>Loading...</Text>}
       {error && <Text>{error}</Text>}
-      {/* <MapViewComponent 
+      <MapViewComponent 
         marker={marker} 
         onLongPress={handleLongPress} 
         title={city} 
-        description={forecast}/> */}
+        description={forecast}/>
       
       {forecast && (
         <View style={{backgroundColor: "red", padding: 10, borderRadius: 10}}>
-          <Text style={{color: "white"}}>{forecast.weather[0].description}</Text>
-          <Text style={{color: "white"}}>{forecast.main.temp}°C</Text>
+          <Text style={{color: "white"}}>{forecast.date}</Text>
+          <Text style={{color: "white"}}>{forecast[0].avgTemp}°C</Text>
         </View>
       )}
-      <MapView
+      {/* <MapView
         style={{flex: 1, width, height}}
         onLongPress={handleLongPress}
       >
@@ -80,11 +81,11 @@ const HomeScreen = ({navigation}) => {
               longitude: marker.longitude,
             }}
             title={city}
-            description={`This is a marker example, ${forecast}°C`}
+            description={`This is a marker example, ${forecast?.[0]?.avgTemp}°C`}
           />
         )}
         
-      </MapView>
+      </MapView> */}
     </View>
   );
 }

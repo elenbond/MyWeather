@@ -2,10 +2,11 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 
 import AppStack from '../stack/AppStack';
+import { BottomTabParamList } from './NavigationTypes';
 
 import SearchScreen from '../screens/SearchScreen';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const AppNavigator = () => {
   return (
