@@ -31,19 +31,6 @@ const HomeScreen = ({}) => {
     }
   }, [marker, dispatch]);
 
-  // useEffect(() => {
-  //   if (marker) {
-  //     dispatch(fetchWeatherByCoords({lat: marker.latitude, lon: marker.longitude}))
-  //     .unwrap()
-  //     .then((forecast: any) => {
-  //       console.log("forecast", forecast);
-  //     })
-  //     .catch((error) => {
-  //       console.log("error", error);
-  //     });
-  //   }
-  // }, [marker, dispatch]);
-
   const handleLongPress = (event: { 
     nativeEvent: { coordinate: { latitude: number; longitude: number } } 
   }) => {

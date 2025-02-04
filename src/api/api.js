@@ -12,28 +12,6 @@ export const getCityName = async ({lat, lon}) => {
   }
 };
 
-// export const getWeatherByCoords = async ({lat, lon}) => {
-//   try {
-//     const response = await axios.get(
-//       `api.openweathermap.org/data/2.5/forecast/daily?lat=${lat}&lon=${lon}&cnt=7&appid=${cred.ACCESS_WEATHER_API_KEY}`
-//     );
-//     return response;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-// export const getWeather = async ({name}) => {
-//   try {
-//     const response = await axios.get(
-//       `https://api.openweathermap.org/data/2.5/weather?q=${name},uk&appid=${cred.ACCESS_WEATHER_API_KEY}`
-//     );
-//     return response;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
 export const getWeeklyWeather = async ({ lat, lon }) => {
   try {
     const response = await axios.get(

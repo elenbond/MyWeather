@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import { View, Text, Alert, StyleSheet } from "react-native";
+import MapView, { Marker, Callout } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp }  from "@react-navigation/native-stack";
 
@@ -35,6 +35,16 @@ const MapViewComponent: React.FC<Props> = ({marker, onLongPress, title, descript
             }}
             title={`${title}`}
             description={`${roundedTemp}°C`}
+            // onPress={()=>{
+            //   navigation.navigate("WeatherDetailsScreen", 
+            //   {city: title || "Unknown city", 
+            //     forecast: description, 
+            //     latitude: marker.latitude,
+            //     longitude: marker.longitude
+            //   });
+            // }}
+          >
+            <Callout 
             onPress={()=>{
               navigation.navigate("WeatherDetailsScreen", 
               {city: title || "Unknown city", 
@@ -43,11 +53,67 @@ const MapViewComponent: React.FC<Props> = ({marker, onLongPress, title, descript
                 longitude: marker.longitude
               });
             }}
-          ></Marker>
+            // style={{width: 100, height: 100, display: "flex", 
+            // justifyContent: "center", alignItems: "center"
+            // }}
+            >
+              <Callout>
+                <Text style={{width: 100}}>this is the name {title}</Text>
+                <Text>{`temperature ${roundedTemp}°C`}</Text>
+                <View style={styles.container}>
+                  <View style={styles.bubble}>
+                    <View style={styles.amount}>
+                      <Text style={{width: 100}}>this is the name {title}</Text>
+                      <Text>{`temperature ${roundedTemp}°C`}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.arrowBorder} />
+                  <View style={styles.arrow} />
+                </View>
+              </Callout>
+            </Callout>
+          </Marker>
         )}
       </MapView>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+    alignSelf: 'flex-start',
+  },
+  bubble: {
+    width: 140,
+    flexDirection: 'row',
+    alignSelf: 'flex-start',
+    backgroundColor: '#4da2ab',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 6,
+    borderColor: '#007a87',
+    borderWidth: 0.5,
+  },
+  amount: {
+    flex: 1,
+  },
+  arrow: {
+    backgroundColor: 'transparent',
+    borderWidth: 16,
+    borderColor: 'transparent',
+    borderTopColor: '#4da2ab',
+    alignSelf: 'center',
+    marginTop: -32,
+  },
+  arrowBorder: {
+    backgroundColor: 'transparent',
+    borderWidth: 16,
+    borderColor: 'transparent',
+    borderTopColor: '#007a87',
+    alignSelf: 'center',
+    marginTop: -0.5,
+  },  
+})
 
 export default MapViewComponent;
