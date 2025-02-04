@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, Alert, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, Alert, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp }  from "@react-navigation/native-stack";
@@ -16,12 +16,13 @@ type Props = {
 
 const MapViewComponent: React.FC<Props> = ({marker, onLongPress, title, description}) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
+  // const [calloutWidth, setCalloutWidth] = useState(200);
 
   const roundedTemp = description?.[0]?.avgTemp < 0 
     ? Math.floor(description?.[0]?.avgTemp) : Math.ceil(description?.[0]?.avgTemp);
 
   return(
-    <View>
+    <View style={styles.container}>
       <MapView
         style={{flex: 1, width, height}}
         onLongPress={onLongPress}
@@ -32,45 +33,29 @@ const MapViewComponent: React.FC<Props> = ({marker, onLongPress, title, descript
             coordinate={{
               latitude: marker.latitude,
               longitude: marker.longitude,
-            }}
-            title={`${title}`}
-            description={`${roundedTemp}°C`}
-            // onPress={()=>{
-            //   navigation.navigate("WeatherDetailsScreen", 
-            //   {city: title || "Unknown city", 
-            //     forecast: description, 
-            //     latitude: marker.latitude,
-            //     longitude: marker.longitude
-            //   });
-            // }}
-          >
-            <Callout 
-            onPress={()=>{
-              navigation.navigate("WeatherDetailsScreen", 
-              {city: title || "Unknown city", 
-                forecast: description, 
-                latitude: marker.latitude,
-                longitude: marker.longitude
-              });
-            }}
-            // style={{width: 100, height: 100, display: "flex", 
-            // justifyContent: "center", alignItems: "center"
-            // }}
+            }}>
+            <Callout tooltip={true}
+              // onLayout={(event) => {
+              //   const { width } = event.nativeEvent.layout;
+              //   setCalloutWidth(Math.max(width, 200)); 
+              // }}
+              // style={[styles.bubble, { minWidth: calloutWidth }]}
             >
-              <Callout>
-                <Text style={{width: 100}}>this is the name {title}</Text>
-                <Text>{`temperature ${roundedTemp}°C`}</Text>
-                <View style={styles.container}>
-                  <View style={styles.bubble}>
-                    <View style={styles.amount}>
-                      <Text style={{width: 100}}>this is the name {title}</Text>
-                      <Text>{`temperature ${roundedTemp}°C`}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.arrowBorder} />
-                  <View style={styles.arrow} />
-                </View>
-              </Callout>
+              <View style={styles.bubble}>
+                <Text>{title}</Text>
+                <TouchableOpacity
+                  onPress={()=>{
+                    navigation.navigate("WeatherDetailsScreen", 
+                    {city: title || "Unknown city", 
+                      forecast: description, 
+                      latitude: marker.latitude,
+                      longitude: marker.longitude
+                    });
+                  }}
+                >
+                  <Text>{`temperature ${roundedTemp}°C`}</Text>
+                </TouchableOpacity>
+              </View>
             </Callout>
           </Marker>
         )}
@@ -85,35 +70,19 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   bubble: {
-    width: 140,
-    flexDirection: 'row',
-    alignSelf: 'flex-start',
+    minWidth: 250,
     backgroundColor: '#4da2ab',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 6,
-    borderColor: '#007a87',
-    borderWidth: 0.5,
-  },
-  amount: {
-    flex: 1,
-  },
-  arrow: {
-    backgroundColor: 'transparent',
-    borderWidth: 16,
-    borderColor: 'transparent',
-    borderTopColor: '#4da2ab',
-    alignSelf: 'center',
-    marginTop: -32,
-  },
-  arrowBorder: {
-    backgroundColor: 'transparent',
-    borderWidth: 16,
-    borderColor: 'transparent',
-    borderTopColor: '#007a87',
-    alignSelf: 'center',
-    marginTop: -0.5,
-  },  
+    padding: 20,
+    borderRadius: 8,
+    // width: 180,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+    zIndex: 1000,
+  }, 
 })
 
 export default MapViewComponent;

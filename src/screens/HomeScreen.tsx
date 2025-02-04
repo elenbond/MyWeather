@@ -57,22 +57,6 @@ const HomeScreen = ({}) => {
           <Text style={{color: "white"}}>{forecast[0].avgTemp}°C</Text>
         </View>
       )}
-      {/* <MapView
-        style={{flex: 1, width, height}}
-        onLongPress={handleLongPress}
-      >
-        {marker && (
-          <Marker
-            coordinate={{
-              latitude: marker.latitude,
-              longitude: marker.longitude,
-            }}
-            title={city}
-            description={`This is a marker example, ${forecast?.[0]?.avgTemp}°C`}
-          />
-        )}
-        
-      </MapView> */}
     </View>
   );
 }
