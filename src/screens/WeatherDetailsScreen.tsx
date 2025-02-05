@@ -5,7 +5,6 @@ import { format } from "date-fns/format";
 import { useNavigation } from "@react-navigation/native";
 
 import { RootStackParamList } from "../navigation/NavigationTypes";
-import { width, height } from "../constants/dimentions";
 
 type ForecastItem = {
   avgTemp: number;

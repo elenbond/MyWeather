@@ -9,7 +9,7 @@ export const fetchCityName = createAsyncThunk("weather/fetchCityName", async ({l
       if (!response || !response.data || response.data.length === 0) {
         throw new Error("City not found");
       }
-    console.log("city name", response.data?.[0]?.name);
+    // console.log("city name", response.data?.[0]?.name);
 
       return response.data?.[0]?.name;
   } catch (error) {
@@ -25,7 +25,7 @@ export const fetchWeeklyWeather = createAsyncThunk(
       if (!response) {
         throw new Error("Weather data not found");
       }
-      console.log("Weekly weather API Response:", response);
+      // console.log("Weekly weather API Response:", response);
       return response;
     } catch (error) {
       throw error;

@@ -19,14 +19,7 @@ const HomeScreen = ({}) => {
 
   useEffect(() => {
     if (marker) {
-      dispatch(fetchCityName({lat: marker.latitude, lon: marker.longitude}))
-      // .unwrap()
-      // .then((name: string)=> {
-      //   // dispatch(fetchWeather({name}))
-      // })
-      // .catch((error) => {
-      //   console.log("error", error);
-      // });
+      dispatch(fetchCityName({lat: marker.latitude, lon: marker.longitude}));
       dispatch(fetchWeeklyWeather({lat: marker.latitude, lon: marker.longitude}));
     }
   }, [marker, dispatch]);
@@ -36,9 +29,9 @@ const HomeScreen = ({}) => {
   }) => {
     const {latitude, longitude} = event.nativeEvent.coordinate;
     setMarker({latitude, longitude});
-    console.log("marker", marker);
+    // console.log("marker", marker);
     // console.log("city1", city);
-    console.log("forecast1", forecast);
+    // console.log("forecast1", forecast);
   }
 
   return (
