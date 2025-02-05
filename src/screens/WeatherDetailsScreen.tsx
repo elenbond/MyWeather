@@ -41,7 +41,7 @@ const WeatherDetailsScreen = () => {
             return (
               <View key={index} style={styles.weekdayContainer}>
                 <Text style={styles.weekdayName}>{weekdayName}</Text>
-                <Text>{`${roundedTemp} °C`}</Text>
+                <Text>{roundedTemp < 0 ? `${roundedTemp}°C` : `+${roundedTemp}°C`}</Text>
               </View>
             );
           })}

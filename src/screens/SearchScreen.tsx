@@ -57,7 +57,7 @@ const SearchScreen = () => {
           }}
         />
 
-        {loading ? (
+        {forecast !== 0 ? (loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : error ? (
           <Text>{error}</Text>
@@ -72,11 +72,11 @@ const SearchScreen = () => {
               return(
               <View style={styles.weekdayContainer}>
                 <Text>{weekdayName}</Text>
-                <Text>{roundedTemp < 0 ? `${roundedTemp} °C` : `+${roundedTemp} °C`}</Text>
+                <Text>{roundedTemp < 0 ? `${roundedTemp}°C` : `+${roundedTemp}°C`}</Text>
               </View>
             )}}
           />
-        )}
+        )) : (<Text>{"Find your weather forecast :)"}</Text>)}
       </View>
       
     </View>

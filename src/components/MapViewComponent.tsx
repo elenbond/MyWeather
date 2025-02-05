@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { View, Text, Alert, StyleSheet, TouchableOpacity } from "react-native";
-import MapView, { Marker, Callout } from "react-native-maps";
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp }  from "@react-navigation/native-stack";
 
@@ -16,7 +16,6 @@ type Props = {
 
 const MapViewComponent: React.FC<Props> = ({marker, onLongPress, title, description}) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
-  // const [calloutWidth, setCalloutWidth] = useState(200);
 
   const roundedTemp = description?.[0]?.avgTemp < 0 
     ? Math.floor(description?.[0]?.avgTemp) : Math.ceil(description?.[0]?.avgTemp);
@@ -24,36 +23,48 @@ const MapViewComponent: React.FC<Props> = ({marker, onLongPress, title, descript
   return(
     <View style={styles.container}>
       <MapView
-        style={{flex: 1, width, height}}
+        style={{flex: 1, width, height, zIndex: -1000}}
         onLongPress={onLongPress}
         zoomEnabled={true}
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation
       >
         {marker && (
-          <Marker
+          <Marker 
             coordinate={{
               latitude: marker.latitude,
               longitude: marker.longitude,
-            }}>
-            <Callout tooltip={true}
-              // onLayout={(event) => {
-              //   const { width } = event.nativeEvent.layout;
-              //   setCalloutWidth(Math.max(width, 200)); 
-              // }}
-              // style={[styles.bubble, { minWidth: calloutWidth }]}
+            }}
+            title={title}
+            key={`${marker.latitude}-${marker.longitude}-${title}`}
+          >
+            <Callout 
+            tooltip={true}
+            style={styles.calloutContainer}
+              onPress={()=>{
+                navigation.navigate("WeatherDetailsScreen", 
+                {city: title || "Unknown city", 
+                  forecast: description, 
+                  latitude: marker.latitude,
+                  longitude: marker.longitude
+                });
+              }}
             >
               <View style={styles.bubble}>
-                <Text>{title}</Text>
-                <TouchableOpacity
-                  onPress={()=>{
-                    navigation.navigate("WeatherDetailsScreen", 
-                    {city: title || "Unknown city", 
-                      forecast: description, 
-                      latitude: marker.latitude,
-                      longitude: marker.longitude
-                    });
-                  }}
+                <Text style={styles.cityName}>{title}</Text>
+                <TouchableOpacity style={{zIndex: 1000, marginTop: 0}}
+                  // onPress={()=>{
+                  //   navigation.navigate("WeatherDetailsScreen", 
+                  //   {city: title || "Unknown city", 
+                  //     forecast: description, 
+                  //     latitude: marker.latitude,
+                  //     longitude: marker.longitude
+                  //   });
+                  // }}
                 >
-                  <Text>{`temperature ${roundedTemp}°C`}</Text>
+                  <Text style={{marginTop: 3}}>
+                    {roundedTemp < 0 ? `${roundedTemp}°C` : `+${roundedTemp}°C`}
+                    </Text>
                 </TouchableOpacity>
               </View>
             </Callout>
@@ -70,19 +81,20 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   bubble: {
-    minWidth: 250,
-    backgroundColor: '#4da2ab',
-    padding: 20,
-    borderRadius: 8,
-    // width: 180,
+    minWidth: 100,
+    backgroundColor: '#F3F5FD',
+    padding: 10,
+    borderRadius: 10,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
     zIndex: 1000,
   }, 
+  calloutContainer: {
+    alignItems: "center",
+  },
+  cityName: {
+    fontSize: 16,
+    textAlign: "center",
+  },
 })
 
 export default MapViewComponent;
