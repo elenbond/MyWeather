@@ -10,7 +10,6 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import 'react-native-get-random-values';
 import { format } from "date-fns/format";
 
-
 import cred from "../api/apiKeys";
 import { fetchWeeklyWeather } from "../redux/actions";
 import { AppDispatch, RootState } from "../redux/store";
