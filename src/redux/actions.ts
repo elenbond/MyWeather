@@ -4,7 +4,7 @@ import { getCityName, getWeeklyWeather } from "../api/api";
 export const fetchCityName = createAsyncThunk("weather/fetchCityName", async ({lat, lon}: {lat: number; lon: number}) => {
   try {
     const response = await getCityName({ lat, lon });
-    console.log("API Response:", response)
+    // console.log("API Response:", response)
     
       if (!response || !response.data || response.data.length === 0) {
         throw new Error("City not found");

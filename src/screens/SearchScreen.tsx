@@ -45,7 +45,7 @@ const SearchScreen = () => {
           onPress={(data, details = null) => {
             if (details) {
               const { lat, lng } = details.geometry.location;
-              console.log("Координати:", lat, lng);
+              // console.log("Координати:", lat, lng);
               dispatch(fetchWeeklyWeather({ lat: lat, lon: lng }));
             }
           }}
