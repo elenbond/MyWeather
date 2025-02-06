@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { format } from "date-fns/format";
 import { useNavigation } from "@react-navigation/native";
+import countries from "i18n-iso-countries";
+import langEn from "i18n-iso-countries/langs/en.json";
 
 import { RootStackParamList } from "../navigation/NavigationTypes";
 
@@ -20,6 +22,10 @@ const WeatherDetailsScreen = () => {
     return format(new Date(dateString), 'eeee');
   };
 
+  countries.registerLocale(langEn);
+  const countryCode = city?.[0].country;
+  const countryName = countries.getName(countryCode, "en");
+
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
@@ -29,7 +35,7 @@ const WeatherDetailsScreen = () => {
             <Text style={{fontSize: 20}}>{`<--`}</Text>
           </TouchableOpacity>
           <View style={styles.headingContainer}>
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>{city}</Text>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>{`${city?.[0].name}, ${countryName}`}</Text>
           </View>
         </View>
       

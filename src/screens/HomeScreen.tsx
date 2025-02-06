@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { View, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import MapEvent from "react-native-maps";
-import MapView, {Marker} from "react-native-maps";
 
 import MapViewComponent from "../components/MapViewComponent";
 import { fetchCityName, fetchWeeklyWeather } from "../redux/actions";
@@ -12,10 +10,15 @@ import { width, height } from "../constants/dimentions";
 const HomeScreen = ({}) => {
   const [marker, setMarker] = useState<{ latitude: number; longitude: number } | null>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const city = useSelector((state: RootState) => state.weather.name);
+  const city = useSelector((state: RootState) => state.weather.city);
   const forecast = useSelector((state: RootState) => state.weather.forecast);
   const loading = useSelector((state: RootState) => state.weather.loading);
   const error = useSelector((state: RootState) => state.weather.error);
+  // const city = "london"
+
+  // console.log("city1", useSelector((state: RootState) => state.weather.city?.[0].name));
+  // console.log("country1", useSelector((state: RootState) => state.weather.city?.[0].country));
+
 
   useEffect(() => {
     if (marker) {
@@ -30,7 +33,7 @@ const HomeScreen = ({}) => {
     const {latitude, longitude} = event.nativeEvent.coordinate;
     setMarker({latitude, longitude});
     // console.log("marker", marker);
-    // console.log("city1", city);
+    // console.log("city12", city);
     // console.log("forecast1", forecast);
   }
 

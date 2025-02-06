@@ -5,13 +5,14 @@ export const fetchCityName = createAsyncThunk("weather/fetchCityName", async ({l
   try {
     const response = await getCityName({ lat, lon });
     // console.log("API Response:", response)
+    // console.log("назва міста за координатами actions", response)
     
       if (!response || !response.data || response.data.length === 0) {
         throw new Error("City not found");
       }
-    // console.log("city name", response.data?.[0]?.name);
-
-      return response.data?.[0]?.name;
+      // console.log("city назва та країна", response.data?.[0]?.name,",", response.data?.[0]?.country,);
+      // console.log("API Response data:", response.data)
+      return response.data;
   } catch (error) {
     throw error
   }

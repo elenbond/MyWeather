@@ -6,6 +6,7 @@ export const getCityName = async ({lat, lon}) => {
     const response = await axios.get(
       `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=5&appid=${cred.ACCESS_WEATHER_API_KEY}`
     );
+    // console.log("назва міста за координатами api", response)
     return response;
   } catch (error) {
     console.error(error);

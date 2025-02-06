@@ -1,7 +1,7 @@
 export type RootStackParamList = {
   Home: undefined;
   WeatherDetailsScreen: {
-    city: string, 
+    city: any | string, 
     forecast: any, 
     latitude: number, 
     longitude: number};

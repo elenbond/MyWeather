@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp }  from "@react-navigation/native-stack";
+import countries from "i18n-iso-countries";
+import langEn from "i18n-iso-countries/langs/en.json";
 
 import { RootStackParamList } from "../navigation/NavigationTypes";
 import { width, height } from "../constants/dimentions";
@@ -10,7 +12,7 @@ import { width, height } from "../constants/dimentions";
 type Props = {
   marker: {latitude: number, longitude: number} | null;
   onLongPress: (event: { nativeEvent: { coordinate: { latitude: number; longitude: number } } }) => void;
-  title: string | undefined;
+  title: any | undefined;
   description: any | undefined;
 }
 
@@ -19,6 +21,11 @@ const MapViewComponent: React.FC<Props> = ({marker, onLongPress, title, descript
 
   const roundedTemp = description?.[0]?.avgTemp < 0 
     ? Math.floor(description?.[0]?.avgTemp) : Math.ceil(description?.[0]?.avgTemp);
+
+  countries.registerLocale(langEn);
+  const countryCode = title?.[0].country;
+  const countryName = countries.getName(countryCode, "en");
+  // console.log(countryName)
 
   return(
     <View style={styles.container}>
@@ -35,8 +42,8 @@ const MapViewComponent: React.FC<Props> = ({marker, onLongPress, title, descript
               latitude: marker.latitude,
               longitude: marker.longitude,
             }}
-            title={title}
-            key={`${marker.latitude}-${marker.longitude}-${title}`}
+            title={title?.[0].name}
+            key={`${marker.latitude}-${marker.longitude}-${title?.[0].name}`}
           >
             <Callout 
             tooltip={true}
@@ -51,7 +58,7 @@ const MapViewComponent: React.FC<Props> = ({marker, onLongPress, title, descript
               }}
             >
               <View style={styles.bubble}>
-                <Text style={styles.cityName}>{title}</Text>
+                <Text style={styles.cityName}>{`${title?.[0].name}, ${countryName}`}</Text>
                 <TouchableOpacity style={{zIndex: 1000, marginTop: 0}}
                   // onPress={()=>{
                   //   navigation.navigate("WeatherDetailsScreen", 
